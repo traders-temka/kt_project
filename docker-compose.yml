@@ -1,0 +1,12 @@
+version: '3.8'
+
+servises:
+  redis:
+    image: redis:7-alpine
+    container_name: data-redis
+    ports:
+     - "6379:6379"
+    restart: always
+
+# probably later
+# server:
