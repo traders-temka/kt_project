@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func GetPrice(url string, data *models.Stat) { //Get information from market
+func GetStat(url string, data *models.Stat) { //Get information from market
 	get_http, err := http.Get(url)
 	defer get_http.Body.Close()
 

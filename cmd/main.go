@@ -26,7 +26,7 @@ func main() {
 
 		url := "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
 
-		agent.GetPrice(url, &stat)
+		agent.GetStat(url, &stat)
 
 		// agent sends data on local server by HTTP
 		err := agent.SendStat("http://localhost:8080/update", &stat)
