@@ -1,0 +1,51 @@
+basePath: /
+definitions:
+  models.Stat:
+    properties:
+      price:
+        type: number
+      source:
+        type: string
+      symbol:
+        type: string
+      timedump:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Сервис для сбора и хранения котировок.
+  title: Crypto Metrics API
+  version: "1.0"
+paths:
+  /update:
+    post:
+      consumes:
+      - application/json
+      description: Принимает JSON с данными о валюте и сохраняет в базу
+      parameters:
+      - description: Данные метрики
+        in: body
+        name: stat
+        required: true
+        schema:
+          $ref: '#/definitions/models.Stat'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Сохранить метрику
+      tags:
+      - metrics
+swagger: "2.0"
