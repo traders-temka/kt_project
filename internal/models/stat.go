@@ -8,3 +8,9 @@ type Stat struct {
 	Source   string    `json:"source"`
 	Timedump time.Time `json:"timedump" swaggerignore:"true"`
 }
+
+type Exchange interface {
+	GetStat(coin string) Stat //Get information from market
+}
+
+

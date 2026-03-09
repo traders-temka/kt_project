@@ -2,9 +2,9 @@ package main
 
 import (
 	"kt_project/cmd/server"
-	"kt_project/internal/agent"
+	"kt_project/cmd/agent"
+	"kt_project/internal/agent/collector"
 	"kt_project/internal/models"
-	"log"
 	"time"
 )
 
@@ -17,21 +17,17 @@ func main() {
 	//
 	// 	repo := repository.NewRedisStorage("localhost:6379", "", 0)
 	// 	h := &handlers.Handler{Repo: repo}
+	myExchanges := []models.Exchange{
+		collector.Binance{},
+		// Bybit
+		// Kraken
+	}
+	targetCoins := []string{"BTC", "ETH", "DOGE"} //можно с командной строки
 
 	go server.Run()
 
 	ticker := time.NewTicker(2 * time.Second)
 	for range ticker.C {
-		var stat models.Stat
-
-		url := "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
-
-		agent.GetStat(url, &stat)
-
-		// agent sends data on local server by HTTP
-		err := agent.SendStat("http://localhost:8080/update", &stat)
-		if err != nil {
-			log.Printf("Send error: %v", err)
-		}
+		agent.RunAgent(myExchanges, targetCoins)
 	}
 }
