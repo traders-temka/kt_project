@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"kt_project/internal/models"
 	"os"
-	"time"
 	"strconv"
+	"time"
 )
 
-type Binance struct {}
+type Binance struct{}
 
 type binanceResponse struct {
 	Price string `json: "price"`
@@ -21,15 +21,15 @@ func (b Binance) GetStat(coin string) models.Stat { //Get information from marke
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: Dont get JSON (%v)\n", err)
 	}
-	price, _:= strconv.ParseFloat(resp.Price, 64)
+	price, _ := strconv.ParseFloat(resp.Price, 64)
 	return models.Stat{
-		Name:  coin,
-		Price: price,
-		Source: "Binance",
+		Symbol:   coin,
+		Price:    price,
+		Source:   "Binance",
 		Timedump: time.Now(),
 	}
 }
 
 func (b Binance) formatSymbol(coin string) string {
-    return coin + "USDT"
+	return coin + "USDT"
 }

@@ -21,7 +21,8 @@ func NewRouter(h *handlers.Handler) *chi.Mux {
 	r.Get("/", h.Main)
 	// for docs
 	r.Get("/swagger/*", httpSwagger.WrapHandler)
-	// when agent posts, dumpmetric is called
+	// when agent posts, dumpStat is called
+	r.Get("/stat", h.GetStat)
 	r.Post("/update", h.DumpStat)
 	// test router to check in browser
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {

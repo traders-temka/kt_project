@@ -1,14 +1,43 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Сервис для сбора и хранения котировок.",
-        "title": "Crypto Metrics API",
+        "description": "This is a sample crypto metrics server.",
+        "title": "Crypto Monitoring API",
         "contact": {},
         "version": "1.0"
     },
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/stat": {
+            "get": {
+                "description": "Returns a list of all collected cryptocurrency statistics from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stats"
+                ],
+                "summary": "Get all crypto stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Stat"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/update": {
             "post": {
                 "description": "Принимает JSON с данными о валюте и сохраняет в базу",
@@ -61,15 +90,13 @@
             "type": "object",
             "properties": {
                 "price": {
-                    "type": "number"
+                    "type": "string",
+                    "example": "0"
                 },
                 "source": {
                     "type": "string"
                 },
                 "symbol": {
-                    "type": "string"
-                },
-                "timedump": {
                     "type": "string"
                 }
             }

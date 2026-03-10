@@ -43,7 +43,7 @@ func (h *Handler) DumpStat(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// checkin agent logs
-	log.Printf("Saving to DB: Symbol=%s, Price=%f, Time=%v", s.Name, s.Price, s.Timedump)
+	log.Printf("Saving to DB: Symbol=%s, Price=%f, Time=%v", s.Symbol, s.Price, s.Timedump)
 
 	if err := h.Repo.Save(s); err != nil {
 		log.Printf("DATABASE SAVE ERROR: %v", err)
@@ -52,4 +52,24 @@ func (h *Handler) DumpStat(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+// GetStat godoc
+// @Summary      Get all crypto stats
+// @Description  Returns a list of all collected cryptocurrency statistics from the database
+// @Tags         stats
+// @Produce      json
+// @Success      200  {array}   models.Stat
+// @Failure      500  {object}  string
+// @Router       /stat [get]
+func (h *Handler) GetStat(w http.ResponseWriter, r *http.Request) {
+	stats, err := h.Repo.GetStat()
+	if err != nil {
+		log.Printf("error getting data from db: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(stats)
 }

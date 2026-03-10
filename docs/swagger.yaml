@@ -3,21 +3,40 @@ definitions:
   models.Stat:
     properties:
       price:
-        type: number
+        example: "0"
+        type: string
       source:
         type: string
       symbol:
-        type: string
-      timedump:
         type: string
     type: object
 host: localhost:8080
 info:
   contact: {}
-  description: Сервис для сбора и хранения котировок.
-  title: Crypto Metrics API
+  description: This is a sample crypto metrics server.
+  title: Crypto Monitoring API
   version: "1.0"
 paths:
+  /stat:
+    get:
+      description: Returns a list of all collected cryptocurrency statistics from
+        the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Stat'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all crypto stats
+      tags:
+      - stats
   /update:
     post:
       consumes:

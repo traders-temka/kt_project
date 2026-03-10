@@ -15,6 +15,35 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/stat": {
+            "get": {
+                "description": "Returns a list of all collected cryptocurrency statistics from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stats"
+                ],
+                "summary": "Get all crypto stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Stat"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/update": {
             "post": {
                 "description": "Принимает JSON с данными о валюте и сохраняет в базу",
@@ -67,15 +96,13 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "price": {
-                    "type": "number"
+                    "type": "string",
+                    "example": "0"
                 },
                 "source": {
                     "type": "string"
                 },
                 "symbol": {
-                    "type": "string"
-                },
-                "timedump": {
                     "type": "string"
                 }
             }
@@ -89,8 +116,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Crypto Metrics API",
-	Description:      "Сервис для сбора и хранения котировок.",
+	Title:            "Crypto Monitoring API",
+	Description:      "This is a sample crypto metrics server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

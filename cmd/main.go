@@ -1,16 +1,16 @@
 package main
 
 import (
-	"kt_project/cmd/server"
 	"kt_project/cmd/agent"
+	"kt_project/cmd/server"
 	"kt_project/internal/agent/collector"
 	"kt_project/internal/models"
 	"time"
 )
 
-// @title           Crypto Metrics API
+// @title           Crypto Monitoring API
 // @version         1.0
-// @description     Сервис для сбора и хранения котировок.
+// @description     This is a sample crypto metrics server.
 // @host            localhost:8080
 // @BasePath        /
 func main() {
