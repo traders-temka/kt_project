@@ -41,7 +41,7 @@ func (s *SqlStorage) Save(stat models.Stat) error {
 }
 
 func (r *SqlStorage) GetStat() ([]models.Stat, error) {
-	rows, err := r.db.Query("SELECT symbol, price, source, timedump FROM stats ORDER BY timedump DESC LIMIT 20")
+	rows, err := r.db.Query("SELECT symbol, price, source, timedump FROM stats ORDER BY timedump DESC LIMIT 100")
 	if err != nil {
 		return nil, err
 	}

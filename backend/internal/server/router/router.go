@@ -5,6 +5,8 @@ import (
 	"kt_project/internal/server/handlers"
 	"net/http"
 
+	"github.com/go-chi/cors"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger"
@@ -13,6 +15,13 @@ import (
 func NewRouter(h *handlers.Handler) *chi.Mux {
 	// creating router
 	r := chi.NewRouter()
+
+	// CORS for React to connect
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{"http://localhost:5173", "http://localhost:3000"}, // порты фронтенда
+		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders: []string{"Accept", "Content-Type"},
+	}))
 
 	// adding middlewares
 	r.Use(middleware.Logger)    // writes every request to console
