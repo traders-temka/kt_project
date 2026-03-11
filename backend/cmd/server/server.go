@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
-	"kt_project/internal/repository"
-	"kt_project/internal/server/handlers"
-	"kt_project/internal/server/router"
+	"backend/internal/repository"
+	"backend/internal/server/handlers"
+	"backend/internal/server/router"
 	"log"
 	"net/http"
 )

@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"kt_project/internal/models"
+	"backend/internal/models"
 	"time"
 
 	_ "modernc.org/sqlite" // driver for sqlite

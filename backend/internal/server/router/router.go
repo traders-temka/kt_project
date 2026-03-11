@@ -1,8 +1,8 @@
 package router
 
 import (
-	_ "kt_project/docs"
-	"kt_project/internal/server/handlers"
+	_ "backend/docs"
+	"backend/internal/server/handlers"
 	"net/http"
 
 	"github.com/go-chi/cors"

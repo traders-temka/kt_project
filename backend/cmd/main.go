@@ -1,10 +1,10 @@
 package main
 
 import (
-	"kt_project/cmd/agent"
-	"kt_project/cmd/server"
-	"kt_project/internal/agent/collector"
-	"kt_project/internal/models"
+	"backend/cmd/agent"
+	"backend/cmd/server"
+	"backend/internal/agent/collector"
+	"backend/internal/models"
 	"time"
 )
 
@@ -27,7 +27,7 @@ func main() {
 
 	go server.Run()
 
-	ticker := time.NewTicker(2 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 	for range ticker.C {
 		agent.RunAgent(myExchanges, targetCoins)
 	}

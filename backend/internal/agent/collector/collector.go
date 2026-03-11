@@ -9,12 +9,12 @@ import (
 
 func GetJSON[T any](url string, data *T) error {
 	get_http, err := http.Get(url)
-	defer get_http.Body.Close()
-
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %v \n", err)
 	}
 	fmt.Printf("STATUS: %v \n", get_http.Status)
+
+	defer get_http.Body.Close()
 
 	return json.NewDecoder(get_http.Body).Decode(data)
 }

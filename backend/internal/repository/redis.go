@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"kt_project/internal/models"
+	"backend/internal/models"
 	"time"
 
 	"github.com/redis/go-redis/v9"

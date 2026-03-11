@@ -2,7 +2,7 @@ package sender
 import (
 	"encoding/json"
 	"fmt"
-	"kt_project/internal/models"
+	"backend/internal/models"
 	"net/http"
 	"bytes"
 

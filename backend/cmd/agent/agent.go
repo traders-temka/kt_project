@@ -1,9 +1,9 @@
 package agent
 
 import(
-	"kt_project/internal/models"
-	//"kt_project/internal/agent/collector"
-	"kt_project/internal/agent/sender"
+	"backend/internal/models"
+	//"backend/internal/agent/collector"
+	"backend/internal/agent/sender"
 )
 
 func RunAgent(exchanges []models.Exchange, coins []string) {

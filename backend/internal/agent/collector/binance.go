@@ -2,7 +2,7 @@ package collector
 
 import (
 	"fmt"
-	"kt_project/internal/models"
+	"backend/internal/models"
 	"os"
 	"time"
 	"strconv"
@@ -23,7 +23,7 @@ func (b Binance) GetStat(coin string) models.Stat { //Get information from marke
 	}
 	price, _:= strconv.ParseFloat(resp.Price, 64)
 	return models.Stat{
-		Name:  coin,
+		Symbol:  coin,
 		Price: price,
 		Source: "Binance",
 		Timedump: time.Now(),
