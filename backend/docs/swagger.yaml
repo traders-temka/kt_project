@@ -1,0 +1,70 @@
+basePath: /
+definitions:
+  models.Stat:
+    properties:
+      price:
+        example: "0"
+        type: string
+      source:
+        type: string
+      symbol:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample crypto metrics server.
+  title: Crypto Monitoring API
+  version: "1.0"
+paths:
+  /stat:
+    get:
+      description: Returns a list of all collected cryptocurrency statistics from
+        the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Stat'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all crypto stats
+      tags:
+      - stats
+  /update:
+    post:
+      consumes:
+      - application/json
+      description: Принимает JSON с данными о валюте и сохраняет в базу
+      parameters:
+      - description: Данные метрики
+        in: body
+        name: stat
+        required: true
+        schema:
+          $ref: '#/definitions/models.Stat'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Сохранить метрику
+      tags:
+      - metrics
+swagger: "2.0"
