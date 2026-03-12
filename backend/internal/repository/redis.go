@@ -34,7 +34,7 @@ func (r *RedisStorage) Save(stat models.Stat) error {
 		return fmt.Errorf("failed to marshal data stat: %w", err)
 	}
 
-	key := fmt.Sprintf("stat:%s%d", stat.Symbol, stat.Timedump)
+	key := fmt.Sprintf("stat:%s%s %d", stat.Base, stat.Quote, stat.Timedump)
 
 	err = r.client.Set(r.ctx, key, data, 24*time.Hour).Err()
 	if err != nil {

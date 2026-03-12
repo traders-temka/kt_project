@@ -10,26 +10,29 @@ import (
 
 type Binance struct {}
 
-func (b Binance) GetStat(coin string) models.Stat { //Get information from market
-	url := "https://api.binance.com/api/v3/ticker/price?symbol=" + b.formatSymbolUSDT(coin)
+func (b Binance) GetStat(baseCoin string, quoteCoin string) (models.Stat, error) { //Get information from market
+	url := "https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + baseCoin + quoteCoin
 
 	var resp struct {
-		Price string `json:"price"`
+		Bidprice string `json:"bidPrice"`
+		Askprice string `json:"askPrice"`
 	}
 
 	err := GetJSON(url, &resp)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: Dont get JSON (%v)\n", err)
+		return models.Stat{}, fmt.Errorf("No data")
 	}
-	price, _:= strconv.ParseFloat(resp.Price, 64)
+
+	bidprice, _:= strconv.ParseFloat(resp.Bidprice, 64)
+	askprice, _:= strconv.ParseFloat(resp.Askprice, 64)
 	return models.Stat{
-		Symbol:  coin,
-		Price: price,
+		Base: baseCoin,
+		Quote: quoteCoin,
+		AskPrice: askprice,
+		BidPrice: bidprice,
 		Source: "Binance",
 		Timedump: time.Now(),
-	}
+	}, nil
 }
 
-func (b Binance) formatSymbolUSDT(coin string) string {
-    return coin + "USDT"
-}

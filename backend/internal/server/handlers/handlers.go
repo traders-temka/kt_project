@@ -43,7 +43,7 @@ func (h *Handler) DumpStat(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// checkin agent logs
-	log.Printf("Saving to DB: Exchange=%s, Symbol=%s, Price=%f, Time=%v",s.Source, s.Symbol, s.Price, s.Timedump)
+	log.Printf("Saving to DB: Exchange=%s, Base=%s, Quote=%s, AskPrice=%f, BidPrice=%f, Time=%v",s.Source, s.Base, s.Quote, s.AskPrice, s.BidPrice, s.Timedump)
 
 	if err := h.Repo.Save(s); err != nil {
 		log.Printf("DATABASE SAVE ERROR: %v", err)

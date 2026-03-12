@@ -19,7 +19,7 @@ func NewSqlStorage(path string) (*SqlStorage, error) {
 		return nil, err
 	}
 
-	db.SetMaxOpenConns(1) //no more than 1 goroutine write to bd
+	//db.SetMaxOpenConns(1) //no more than 1 goroutine write to bd
 
 	_, err = db.Exec("PRAGMA journal_mode=WAL;") //allow read file while writing
 	if err != nil {
@@ -41,14 +41,13 @@ func NewSqlStorage(path string) (*SqlStorage, error) {
 }
 
 func (s *SqlStorage) Save(stat models.Stat) error {
-	// query request to sql/db
-	query := `INSERT INTO stats (symbol, price, source, timedump) VALUES (?, ?, ?, ?)`
-	_, err := s.db.Exec(query, stat.Symbol, stat.Price, stat.Source, stat.Timedump)
+	query := `INSERT INTO stats (base, quote, askprice, bidprice, source, timedump) VALUES (?, ?, ?, ?, ?, ?)`
+	_, err := s.db.Exec(query, stat.Base, stat.Quote, stat.AskPrice, stat.BidPrice, stat.Source, stat.Timedump)
 	return err
 }
 
 func (r *SqlStorage) GetStat() ([]models.Stat, error) {
-	rows, err := r.db.Query("SELECT symbol, price, source, timedump FROM stats ORDER BY timedump DESC LIMIT 100")
+		rows, err := r.db.Query("SELECT base, quote, askprice, bidprice, source, timedump FROM stats ORDER BY timedump DESC LIMIT 100")
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +58,7 @@ func (r *SqlStorage) GetStat() ([]models.Stat, error) {
 		var s models.Stat
 		var timeStr string
 
-		if err := rows.Scan(&s.Symbol, &s.Price, &s.Source, &timeStr); err != nil {
+		if err := rows.Scan(&s.Base, &s.Quote, &s.AskPrice, &s.BidPrice, &s.Source, &timeStr); err != nil {
 			return nil, err
 		}
 

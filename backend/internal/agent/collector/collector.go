@@ -4,19 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 )
 
 func GetJSON[T any](url string, data *T) error {
 	get_http, err := http.Get(url)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ERROR: %v \n", err)
+		return fmt.Errorf("network error: %w", err)
 	}
-	fmt.Printf("STATUS: %v \n", get_http.Status)
 
 	defer get_http.Body.Close()
 
-	return json.NewDecoder(get_http.Body).Decode(data)
+	if get_http.StatusCode != http.StatusOK {
+		return fmt.Errorf("api returned bad status: %s", get_http.Status)
+	}
+
+	if err := json.NewDecoder(get_http.Body).Decode(data); err != nil {
+		return fmt.Errorf("failed to decode json: %w", err)
+	}
+
+	return nil
 }
 
 
