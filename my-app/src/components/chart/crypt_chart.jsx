@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import styles from "./chart.module.css";
 
 const CryptChart = () => {
     const [data, setData] = useState([]);
@@ -29,11 +30,15 @@ const CryptChart = () => {
     }, []);
 
     // Обновленная логика фильтрации
-    const filteredData = data.filter(item =>
+    // 1. Сначала фильтруем по выбранной паре и бирже
+    const allFiltered = data.filter(item =>
         item.base === selectedBase &&
         item.quote === selectedQuote &&
         item.source === selectedExchange
     );
+
+    // 2. Берем последние 100 точек (если их меньше 100, возьмутся все доступные)
+    const filteredData = allFiltered.slice(-100);
 
     // Динамические списки для выпадающих меню
     const bases = [...new Set(data.map(item => item.base))];
@@ -41,27 +46,44 @@ const CryptChart = () => {
     const exchanges = [...new Set(data.map(item => item.source))];
 
     return (
-        <div style={{ width: '100%', height: 500, padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
-            <h2 style={{ color: '#333' }}>Мониторинг: {selectedBase}/{selectedQuote}</h2>
+        <div className={styles.container}>
+            <h2 className={styles.title}>
+                Мониторинг: {selectedBase}/{selectedQuote}
+            </h2>
 
             {/* Панель фильтров */}
-            <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
-                <select value={selectedBase} onChange={(e) => setSelectedBase(e.target.value)}>
+            <div className={styles.filterPanel}>
+                <select
+                    className={styles.select}
+                    value={selectedBase}
+                    onChange={(e) => setSelectedBase(e.target.value)}
+                >
                     {bases.map(b => <option key={b} value={b}>{b}</option>)}
                 </select>
 
-                <select value={selectedQuote} onChange={(e) => setSelectedQuote(e.target.value)}>
+                <select
+                    className={styles.select}
+                    value={selectedQuote}
+                    onChange={(e) => setSelectedQuote(e.target.value)}
+                >
                     {quotes.map(q => <option key={q} value={q}>{q}</option>)}
                 </select>
 
-                <select value={selectedExchange} onChange={(e) => setSelectedExchange(e.target.value)}>
+                <select
+                    className={styles.select}
+                    value={selectedExchange}
+                        onChange={(e) => setSelectedExchange(e.target.value)}
+                >
                     {exchanges.map(ex => <option key={ex} value={ex}>{ex}</option>)}
                 </select>
             </div>
 
             <ResponsiveContainer width="100%" height="80%">
                 <LineChart data={filteredData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                    />
                     <XAxis
                         dataKey="timedump"
                         tickFormatter={(str) => new Date(str).toLocaleTimeString()}

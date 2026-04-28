@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	"time"
 )
 
 func Run(exchanges []models.Exchange, coins []string) {
@@ -15,11 +14,12 @@ func Run(exchanges []models.Exchange, coins []string) {
 	var allowedPairs = map[string]bool{
 		"BTCUSDT": true, "ETHUSDT": true, "DOGEUSDT": true,
 		"ETHBTC": true, "SOLBTC": true, "BNBBTC": true,
-		"SOLUSDT": true, "PEPEUSDT": true,
+		"SOLUSDT": true, "PEPEUSDT": true, "DOGEBTC": true,
+		"BNBUSDT": true, "PEPEBTC": true,
 	}
 
 	for i, basecoin := range coins {
-		time.Sleep(500 * time.Millisecond)
+		// time.Sleep(500 * time.Millisecond)
 		for _, quotecoin := range coins[i+1:] {
 
 			symbol := basecoin + quotecoin
